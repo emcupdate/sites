@@ -11,16 +11,16 @@
 
 - emc用户与组
 
-      groupadd emc ;
-      groupadd emcgroup ;
-      useradd -g emcgroup emc ;
+      groupadd emc;\
+      groupadd emcgroup;\
+      useradd -g emcgroup emc;\
       passwd emc
 
 - oracle
 
-      groupadd oinstall;
-      groupadd dba;
-      useradd -g oinstall -G dba oracle;
+      groupadd oinstall;\
+      groupadd dba;\
+      useradd -g oinstall -G dba oracle;\
       passwd oracle
 
 #### pip
