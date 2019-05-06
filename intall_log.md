@@ -23,6 +23,36 @@
       useradd -g oinstall -G dba oracle;\
       passwd oracle
 
+### CentOS 添加EPELRepo and IUSRepo
+
+      sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+      sudo rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+      sudo yum install epel-release             //centos install epelrepo
+      sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E '%{rhel}').noarch.rpm         //REDHAT install EPELrepo
+
+- To install the IUS release package, run the following command:
+
+      sudo yum install https://$(rpm -E '%{?centos:centos}%{!?centos:rhel}%{rhel}').iuscommunity.org/ius-release.rpm
+- Upgrade installed packages to IUS versions
+
+      sudo yum install yum-plugin-replace
+
+- The plug-in provides a yum replace command that replaces a specified package and installs any required dependencies at the same time. For example, to replace the installed PHP package with the PHP 5.6 package from the IUS repository, run the following command:
+
+      sudo yum replace php --replace-with php56u
+----
+      
+
+
+      sudo yum install binutils-devel* compat-libcap1.* gcc gcc-c++ glibc-static.* glibc-utils.x86_64 ksh libaio libaio-devel libgcc libstdc++-* libXi libXtst* make
+### 图形化安装oracle数据库
+
+解决汉语安装器乱码
+
+      export NLS_LANG=american_america.ZHS16GBK
+      export LC_ALL=C
+      ./runInstaller
+
 #### pip
 
 pippackage
