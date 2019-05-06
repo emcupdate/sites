@@ -23,6 +23,51 @@
       useradd -g oinstall -G dba oracle;\
       passwd oracle
 
+- 修改内核参数
+
+      vi /etc/sysctl.conf
+
+      fs.aio-max-nr = 1048576
+      fs.file-max = 6815744
+      kernel.shmall = 2097152
+      kernel.shmmax = 536870912
+      kernel.shmmni = 4096
+      kernel.sem = 250 32000 100 128
+      net.ipv4.ip_local_port_range = 9000 65500
+      net.core.rmem_default = 262144
+      net.core.rmem_max = 4194304
+      net.core.wmem_default = 262144
+      net.core.wmem_max = 1048586
+
+      sysctl -p #使修改生效
+
+- 修改用户资源限制
+
+      vi /etc/security/limits.conf
+
+      oracle              soft    nproc  2047
+      oracle              hard    nproc  16384
+      oracle              soft    nofile  1024
+      oracle              hard    nofile  65536
+      oracle              soft    stack   10240
+
+- 创建安装目录
+
+      mkdir -p /usr/local/oracle /usr/local/oraInventory /usr/local/oradata/;\
+      chown -R oracle:oinstall /usr/local/oracle /usr/local/oraInventory /usr/local/oradata/;\
+      chmod -R 775 /usr/local/oracle /usr/local/oraInventory /usr/local/oradata/
+
+- 创建oraInst.loc
+
+      vi /etc/oraInst.loc
+      #文件内加入以下内容
+      echo -e "inventory_loc=/usr/local/oraInventory\ninst_group=oinstall" >/etc/oraInst.loc
+      chown oracle:oinstall /etc/oraInst.loc
+      chmod 664 /etc/oraInst.loc
+
+
+
+
 ### CentOS 添加EPELRepo and IUSRepo
 
       sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
