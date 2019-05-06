@@ -65,6 +65,28 @@
       chown oracle:oinstall /etc/oraInst.loc
       chmod 664 /etc/oraInst.loc
 
+- 配置环境变量
+
+      vim .bash_profile
+      #添加
+      export ORACLE_BASE=/usr/local/oracle
+      export ORACLE_HOME=$ORACLE_BASE/product/11.2.0/db_1
+      export ORACLE_SID=orcl    
+      export ORACLE_OWNER=oracle
+      export PATH=$PATH:$ORACLE_HOME/bin:$HOME/bin
+      export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
+      
+      echo -e "export ORACLE_BASE=/usr/local/oracle\nexport ORACLE_HOME=\$ORACLE_BASE/product/11.2.0/db_1\nexport ORACLE_SID=orcl\nexport ORACLE_OWNER=oracle\nexport PATH=\$PATH:\$ORACLE_HOME/bin:\$HOME/bin\nexport LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib" >>.bash_profile
+      #运行source生效
+      source .bash_profile
+
+- 执行安装
+
+      /home/database/./runInstaller -silent -force -ignorePrereq -responseFile /usr/local/oracle/db_install.rsp
+
+      dbca -createDatabase -silent -responseFile ./dbca.rsp
+      netca /silent /responsefile /path/netca.rsp #斜杠绝对路径（坑）
+
 
 
 
