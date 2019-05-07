@@ -3,7 +3,7 @@
 ### emcsite and oracle系统级依赖包
 - dnf
 
-      dnf install git gcc-c++ patch openssl-devel libjpeg-devel  libxslt-devel make which python-devel  readline-devel wv poppler-utils binutils gcc gcc-gfortran make m4 perl tar git perl-ExtUtils-MakeMaker texlive httpd compat-libstdc++-33 compat-libstdc++-33.i686 elfutils-libelf elfutils-libelf-devel glibc glibc.i686 glibc-common glibc-devel glibc-devel.i686 glibc-headers ksh libaio libaio.i686 libaio-devel libaio-devel.i686 libgcc libgcc.i686 libstdc++ libstdc++.i686 libstdc++-devel libXi libXtst sysstat unixODBC unixODBC-devel openssl python-docutils
+      dnf install git gcc-c++ patch openssl-devel libjpeg-devel  libxslt-devel make which python-devel  readline-devel wv poppler-utils binutils gcc gcc-gfortran make m4 perl tar git perl-ExtUtils-MakeMaker texlive httpd compat-libstdc++-33 compat-libstdc++-33.i686 elfutils-libelf elfutils-libelf-devel glibc glibc.i686 glibc-common glibc-devel glibc-devel.i686 glibc-headers ksh libaio libaio.i686 libaio-devel libaio-devel.i686 libgcc libgcc.i686 libstdc++ libstdc++.i686 libstdc++-devel libXi libXtst sysstat unixODBC unixODBC-devel openssl python-docutils python-pip
 
       #dnf install openssl openssl-devel
 
@@ -87,6 +87,34 @@
       dbca -createDatabase -silent -responseFile ./dbca.rsp
       netca /silent /responsefile /path/netca.rsp #斜杠绝对路径（坑）
 
+- 添加用户及表
+
+      # 建立表空间
+      CREATE TABLESPACE "EMCDB"
+       DATAFILE  '/usr/local/oradata/emc/EMCDB' SIZE 100 G AUTOEXTEND ON NEXT 100 M MAXSIZE 100 G
+      
+      CREATE TEMPORARY TABLESPACE "EMCTEMP"
+       TEMPFILE  '/usr/local/oradata/emc/EMCTEMP' SIZE 5 G AUTOEXTEND ON NEXT 50 M MAXSIZE 5 G 
+
+      CREATE USER "EMC" IDENTIFIED BY "yanghaa" DEFAULT TABLESPACE "EMCDB" TEMPORARY TABLESPACE "EMCTEMP";
+
+      GRANT "DBA", "RESOURCE" TO "EMC" WITH ADMIN OPTION;
+
+      ALTER USER "EMC" DEFAULT ROLE "DBA";
+
+      ALTER USER "EMC" QUOTA UNLIMITED ON "EMCDB"
+
+
+### buildout 
+
+- 准备源代码
+
+- python虚拟环境配置
+
+      pip install virtualenv --user
+      virtual --no-site-packages --no-setuptools venv
+      source venv/bin/activate
+      
 
 
 
