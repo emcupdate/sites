@@ -149,6 +149,7 @@
 ## 安装静态文件(emc用户)
 
 - 需要注意目录权限
+
       cd /var/www/html
       sudo git clone git@github.com:emcupdate/emcstatic.git
       # 修改httpd.conf
