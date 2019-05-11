@@ -114,6 +114,8 @@
       pip install virtualenv --user
       virtual --no-site-packages --no-setuptools venv
       source venv/bin/activate
+
+      python bootstrap-buildout.py --buildout-version=2.5.3 --setuptools-version=26.1.1 -c buildout_dev.cfg
       
 
 
