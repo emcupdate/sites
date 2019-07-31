@@ -75,10 +75,6 @@
       chown oracle:oinstall /etc/oraInst.loc;\
       chmod 664 /etc/oraInst.loc
 
-- 配置环境变量
-
-      echo -e "export ORACLE_BASE=/usr/local/oracle\nexport ORACLE_HOME=\$ORACLE_BASE/product/11.2.0/db_1\nexport ORACLE_SID=orcl\nexport ORACLE_OWNER=oracle\nexport PATH=\$PATH:\$ORACLE_HOME/bin:\$HOME/bin\nexport LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib" >>.bash_profile;\
-      source .bash_profile
 
 <!-- 
       vim .bash_profile
@@ -93,6 +89,11 @@
 
 ## 安装Oracle数据库(oracle用户)
 
+- 配置环境变量
+
+      echo -e "export ORACLE_BASE=/usr/local/oracle\nexport ORACLE_HOME=\$ORACLE_BASE/product/11.2.0/db_1\nexport ORACLE_SID=orcl\nexport ORACLE_OWNER=oracle\nexport PATH=\$PATH:\$ORACLE_HOME/bin:\$HOME/bin\nexport LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib" >>.bash_profile;\
+      source .bash_profile
+      
 - 安装包解压
 
       # 解压并拷贝rsp文件至指定目录，部分路径需指定
@@ -108,10 +109,22 @@
       dbca -createDatabase -silent -responseFile ./dbca.rsp
       netca /silent /responsefile /path/netca.rsp #斜杠绝对路径（坑）
 
-<!-- 
 - 添加用户及表
 
       # 建立表空间
+      CREATE TEMPORARY TABLESPACE "EMCTEMP"
+      TEMPFILE  '/usr/local/oradata/emc/emctmp.dbf' SIZE 100 M AUTOEXTEND ON NEXT 100 M MAXSIZE 1 G
+
+      CREATE TABLESPACE "EMCDB"
+      DATAFILE  '/usr/local/oradata/emc/emcdb.dbf' SIZE 100 M AUTOEXTEND ON NEXT 100 M MAXSIZE 2 G
+      # 创建用户
+      CREATE USER "EMC" IDENTIFIED BY "yanghaa" DEFAULT TABLESPACE "EMCDB" TEMPORARY TABLESPACE "EMCTEMP";
+      GRANT "CONNECT", "DBA", "RESOURCE" TO "EMC";
+      ALTER USER "EMC" QUOTA UNLIMITED ON "EMCDB";
+      GRANT CREATE ANY VIEW TO "EMC"
+      
+      
+<!--
       CREATE TABLESPACE "EMCDB"
        DATAFILE  '/usr/local/oradata/emc/EMCDB' SIZE 100 G AUTOEXTEND ON NEXT 100 M MAXSIZE 100 G
       
@@ -125,16 +138,16 @@
       ALTER USER "EMC" DEFAULT ROLE "DBA";
 
       ALTER USER "EMC" QUOTA UNLIMITED ON "EMCDB"
- -->
+      -->
 
 ## Buildout (emc用户)
 
 - 准备源代码
 
-      git clone git@github.com:emcupdate/sites.git;\
-      cd sites;\
-      git clone git@github.com:emcupdate/src.git;\
-      git submodule init;\
+      git clone git@github.com:emcupdate/sites.git &&
+      cd sites &&
+      git clone git@github.com:emcupdate/src.git &&
+      git submodule init &&
       git submodule update
 
 - python虚拟环境配置(逐行运行)
