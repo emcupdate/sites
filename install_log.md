@@ -147,13 +147,14 @@
       git clone git@github.com:emcupdate/sites.git &&
       cd sites &&
       git clone git@github.com:emcupdate/src.git &&
+      cd src
       git submodule init &&
       git submodule update
 
 - python虚拟环境配置(逐行运行)
 
       pip install virtualenv --user
-      virtual --no-site-packages --no-setuptools ~/venv
+      virtualenv --no-site-packages --no-setuptools ~/venv
       source ~/venv/bin/activate
       python bootstrap-buildout.py --buildout-version=2.5.3 --setuptools-version=26.1.1 -c buildout_dev.cfg
       # 回到sites目录下
