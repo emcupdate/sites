@@ -188,7 +188,8 @@
 - test 操作
       
       bin/test -s packagename -m methodname -t testname
-      bin/test -s emc.kb -m test_db_tables -t test_create_tables # 运行测试实例
+      bin/test -s emc.kb -m test_db_tables -t test_create_tables # 运行测试实例，加入test_前缀
+      bin/test -s emc.kb -m test_log_db -t test_db_mapping_userlog # 创建日志表
       bin/test -s emc.kb -m test_db_tables --list-tests # 显示所有测试实例
 
 - CentOS 添加EPELRepo and IUSRepo
