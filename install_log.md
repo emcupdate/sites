@@ -151,7 +151,7 @@
       git submodule init &&
       git submodule update
 
-- python虚拟环境配置(逐行运行)
+- ~~python虚拟环境配置(逐行运行)~~ 需解决Python2的兼容性问题，见下步。
 
       pip install virtualenv --user
       virtualenv --no-site-packages --no-setuptools ~/venv
@@ -159,6 +159,26 @@
       python bootstrap-buildout.py --buildout-version=2.5.3 --setuptools-version=26.1.1 -c buildout_dev.cfg
       # 回到sites目录下
       bin/buildout -Nv -c deploy_haproxy.cfg
+
+- 当前buildout步骤(逐行运行)
+
+      pip install virtualenv --user
+      # 回到代码目录下
+      cd sites
+      virtualenv --no-setuptools ./
+      bin/pip install setuptools==26.1.1
+      bin/pip install zc.buildout==2.5.3
+      bin/pip install six==1.10.0
+      bin/pip install numpy==1.10.4
+      bin/pip install Pandas==0.17.1
+      bin/pip install Paste==1.7.5.1
+      bin/pip install PasteDeploy==1.5.0
+      bin/pip install PasteScript==1.7.5
+      bin/easy_install -i https://mirrors.hit.edu.cn/pypi/web/simple idna==2.1
+      bin/easy_install -i https://mirrors.hit.edu.cn/pypi/web/simple cryptography==2.2.1
+      bin/buildout -Nvvv -c deploy_haproxy.cfg
+
+
 
 ## 安装静态文件(emc用户)
 
